@@ -117,7 +117,7 @@ class AInfrastructure
 {
   public:
 
-    virtual bool  fill(const std::string &param) = 0;
+    virtual bool  fill(const std::string &param, const size_t type) = 0;
     virtual AInfrastructure *clone() = 0;
     const std::string &get_type();
 
@@ -144,23 +144,69 @@ class Airport : public AInfrastructure
 
     Airport();
 
-    bool  fill(const std::string &param);
+    typedef void(Airport::*callback)(const std::string &);
+    std::map<std::string, callback> _map_fill_callback;
+    typedef std::map<std::string, callback>::iterator _it_callback;
+
+    bool  fill(const std::string &param, const size_t type);
     Airport *clone();
 
   protected:
 
   private:
 
+    int _id;
+    std::string _name;
+    std::string _city;
+    std::string _country;
+    std::string _iata_code;
+
+    void  _set_id(const std::string &id);
+    void  _set_name(const std::string &name);
+    void  _set_city(const std::string &city);
+    void  _set_country(const std::string &country);
+    void  _set_iata_code(const std::string &iata_code);
 };
 
-bool  Airport::fill(const std::string &param) {
-  (void)param;
-  return true;
+# define ISSPACE " \t\r\n:"
+
+bool  Airport::fill(const std::string &param, const size_t type) {
+  Parser  parser;
+  _it_callback  it;
+  std::string key;
+  std::string value;
+
+  parser.set_tokenizer(param, ISSPACE);
+  if (type == 3)
+    parser.get_token(key);
+
+  parser.get_token(key);
+  it = this->_map_fill_callback.find(key);
+  if (it == this->_map_fill_callback.end())
+    return true;
+
+  parser.get_token(value);
+  (this->*(it->second))(value);
+
+  return false;
 }
 Airport *Airport::clone() { return new Airport; }
 
 Airport::Airport(): AInfrastructure(AIRPORT_NAME) {
+  this->_map_fill_callback["id"] = &Airport::_set_id;
+  this->_map_fill_callback["name"] = &Airport::_set_name;
+  this->_map_fill_callback["city"] = &Airport::_set_city;
+  this->_map_fill_callback["country"] = &Airport::_set_country;
+  this->_map_fill_callback["iata_code"] = &Airport::_set_iata_code;
 }
+
+//setters
+
+void  Airport::_set_id(const std::string &param) { this->_id = std::stoi(param); }
+void  Airport::_set_name(const std::string &param) { this->_name = param; }
+void  Airport::_set_city(const std::string &param) { this->_city = param; }
+void  Airport::_set_country(const std::string &param) { this->_country = param; }
+void  Airport::_set_iata_code(const std::string &param) { this->_iata_code = param; }
   
 class Factory
 {
@@ -262,23 +308,22 @@ AInfrastructure  *Factory::create(Parser &parser, const std::string &token) {
 
       case 1:
         /* code */
-        this->_curr_type->fill(param);
+        this->_curr_type->fill(param, 1);
         break;
 
       case 2:
         /* code */
-        this->_curr_type->fill(param);
+        this->_curr_type->fill(param, 2);
         break;
 
       case 3:
         this->_curr_type = this->_map_infra[this->_curr_type_name]->clone();
-        this->_curr_type->fill(param);
+        this->_curr_type->fill(param, 3);
         break;
     
       default:
           break;
     }
-    this->_curr_type->fill(param);
   }
 
   return NULL;
