@@ -1,4 +1,4 @@
-airports:
+airport:
   - id: 1
     name: John F. Kennedy International Airport
     city: New York
@@ -26,7 +26,7 @@ airports:
       lat: 41.9742
       lon: -87.9073
 
-flights:
+flight:
   - origin: JFK
     destination: LAX
     airline: Delta Airlines
