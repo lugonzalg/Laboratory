@@ -6,7 +6,11 @@ SANITIZE	= -fsanitize=address
 INC			= -I inc
 RM			= rm -rf
 
-FILES = src/main
+FILES = src/main \
+		src/Airport \
+		src/Factory \
+		src/AInfrastructure \
+		src/Parser
 
 SRC = $(addsuffix .cpp, $(FILES))
 OBJ = $(addsuffix .o, $(FILES))
