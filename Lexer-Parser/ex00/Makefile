@@ -1,4 +1,4 @@
-NAME		= Airport
+NAME		= Parser
 
 CC			= c++
 CFLAGS		= -Wall -Werror -Wextra -g3 -std=c++98
@@ -7,11 +7,9 @@ INC			= -I inc
 RM			= rm -rf
 
 FILES = src/main \
-		src/Airport \
-		src/Factory \
-		src/AInfrastructure \
-		src/Network \
-		src/Parser
+		src/Lexer \
+		src/Parser \
+		src/Token
 
 SRC = $(addsuffix .cpp, $(FILES))
 OBJ = $(addsuffix .o, $(FILES))

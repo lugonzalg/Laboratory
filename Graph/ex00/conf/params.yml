@@ -1,39 +1,80 @@
 airport:
   - id: 1
-    name: John F. Kennedy International Airport
-    city: New York
+    description: John_F._Kennedy_International_Airport
+    city: New_York
     country: USA
     iata_code: JFK
-    lat: 40.6413
-    lon: -73.7781
+    latitude: 40.6413
+    longitude: -73.7781
 
   - id: 2
-    name: Los Angeles International Airport
-    city: Los Angeles
+    description: Los_Angeles_International_Airport
+    city: Los_Angeles
     country: USA
     iata_code: LAX
-    lat: 33.9416
-    lon: -118.4085
+    latitude: 33.9416
+    longitude: -118.4085
 
   - id: 3
-    name: O'Hare International Airport
+    description: O'Hare_International_Airport
     city: Chicago
     country: USA
     iata_code: ORD
-    lat: 41.9742
-    lon: -87.9073
+    latitude: 41.9742
+    longitude: -87.9073
 
-flight:
-  - origin: JFK
-    destination: LAX
-    airline: Delta Airlines
-    flight_no: DL402
-    duration: 6h
+  - id: 4
+    description: Fictional1_Airport_A
+    city: FictionCity_A
+    country: FictionLand
+    iata_code: FCA
+    latitude: 50.1234
+    longitude: 60.5678
 
-  - origin: LAX
-    destination: ORD
-    airline: United Airlines
-    flight_no: UA110
-    duration: 4h
+  - id: 5
+    description: Fictional2_Airport_B
+    city: FictionCity_B
+    country: FictionLand
+    iata_code: FCB
+    latitude: 52.2345
+    longitude: 62.6789
 
+  - id: 6
+    description: Fictional3_Airport_C
+    city: FictionCity_C
+    country: FictionLand
+    iata_code: FCC
+    latitude: 54.3456
+    longitude: 64.7890
 
+  - id: 7
+    description: Fictional4_Airport_D
+    city: FictionCity_D
+    country: FictionLand
+    iata_code: FCD
+    latitude: 56.4567
+    longitude: 66.8901
+
+  - id: 8
+    description: Fictional5_Airport_E
+    city: FictionCity_E
+    country: FictionLand
+    iata_code: FCE
+    latitude: 58.5678
+    longitude: 68.9012
+
+  - id: 9
+    description: Fictional6_Airport_F
+    city: FictionCity_F
+    country: FictionLand
+    iata_code: FCF
+    latitude: 60.6789
+    longitude: 70.0123
+
+  - id: 10
+    description: Fictional7_Airport_G
+    city: FictionCity_G
+    country: FictionLand
+    iata_code: FCG
+    latitude: 62.7890
+    longitude: 72.1234

@@ -29,16 +29,15 @@ class Airport : public AInfrastructure
     int         _id;
     float       _latitude;
     float       _longitude;
-    std::string _name;
     std::string _city;
     std::string _country;
-    std::string _iata_code;
+    std::string _description;
 
     void  _set_id(const std::string &id);
-    void  _set_name(const std::string &name);
+    void  _set_description(const std::string &description);
     void  _set_city(const std::string &city);
     void  _set_country(const std::string &country);
-    void  _set_iata_code(const std::string &iata_code);
+    void  _set_iata_code(const std::string &name);
     void  _set_latitude(const std::string &latitude);
     void  _set_longitude(const std::string &longitude);
 };
