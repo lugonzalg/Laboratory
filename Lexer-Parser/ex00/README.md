@@ -6,3 +6,5 @@
       - No character out of regex [\ta-z:\n].
       - Indentation level correct to the context.
       - A object is a sequence of [\ta-z:\n].
+
+    ![Lexer diagram](https://raw.githubusercontent.com/lugonzalg/Data_Structures/main/Lexer-Parser/ex00/StateMachine.jpg)
