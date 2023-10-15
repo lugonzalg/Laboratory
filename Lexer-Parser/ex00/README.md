@@ -1,4 +1,4 @@
-##LEXER
+## LEXER
 
   Lexer gonna search for patterns within the yml file. For the v1 there are 3 patterns:
 
