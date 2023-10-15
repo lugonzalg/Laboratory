@@ -9,7 +9,7 @@ void    Parser::parse() {
     Token   *token;
 
     while (true) {
-        token = this->_lexer.read(this->_src);
+        token = this->_lexer.read(this->_src, 0);
         if (token == NULL)
             break ;
     }

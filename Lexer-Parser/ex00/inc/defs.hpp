@@ -4,7 +4,6 @@
 typedef enum e_types {
     NONE,
     ATTRIBUTE,
-    ITEM,
     OBJECT
 }   t_types;
 
@@ -15,5 +14,14 @@ typedef struct s_pattern {
     int two_point;
 }   t_pattern;
 
+typedef struct s_params
+{
+    __uint8_t state_machine;
+    __uint8_t tabs;
+    std::string key;
+    std::string value;
+    size_t      start;
+    size_t      end;
+}   t_params;
 
 #endif //DEFS_HPP

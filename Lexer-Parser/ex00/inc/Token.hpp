@@ -10,7 +10,7 @@ class Token
 
     public:
 
-        Token(t_types type, const std::string &key, const std::string &value, size_t start, size_t end);
+        Token(t_types type, t_params &params);
 
     protected:
 
