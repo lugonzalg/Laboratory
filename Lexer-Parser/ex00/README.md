@@ -12,7 +12,7 @@
     
   ### DIAGRAM
 
-  ![Lexer diagram](https://raw.githubusercontent.com/lugonzalg/Data_Structures/main/Lexer-Parser/ex00/StateMachine.jpg)
+  ![Lexer diagram](https://raw.githubusercontent.com/lugonzalg/Data_Structures/main/Lexer-Parser/ex00/ParserLexer-lexer%20state%20machine.jpg)
 
 ### STATE MACHINE
 
