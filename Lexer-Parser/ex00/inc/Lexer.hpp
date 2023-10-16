@@ -15,7 +15,7 @@ class Lexer
         Lexer();
         ~Lexer();
 
-        Token    *read(const std::string src, size_t depth);
+        Token    *read(const std::string src);
 
     protected:
 
@@ -23,6 +23,9 @@ class Lexer
 
         const std::string   _regex;
         size_t              _start;
+        size_t              _depth;
+        __uint8_t           _space;
+        __uint8_t           _tab;
 
         Token   *create_token(t_params &params);
 

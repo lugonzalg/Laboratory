@@ -1,12 +1,13 @@
-#include "Token.hpp"
-#include "Lexer.hpp"
-
+#include <stdlib.h>
 #include <cstring>
 #include <iostream>
 
+#include "Token.hpp"
+#include "Lexer.hpp"
+
 # define REGEX "POIUYTREWQLKJHGFDSAMNBVCXZpoiuytrewqlkjhgfdsamnbvcxz"
 
-Lexer::Lexer(): _regex(REGEX), _start(0) {}
+Lexer::Lexer(): _regex(REGEX), _start(0), _depth(0), _space(0), _tab(0) {}
 
 Lexer::~Lexer() {}
 
@@ -14,8 +15,10 @@ Lexer::~Lexer() {}
 # define COLON_CH ':'
 # define DASH_CH '-'
 # define NL_CH '\n'
+# define SPACE_CH ' '
 
-# define TAB_BIT 0b01000000
+//DEPRECATED
+//# define TAB_BIT 0b01000000
 # define DASH_BIT 0b00100000
 # define ALPHA_1_BIT 0b00010000
 # define COLON_BIT 0b00001000
@@ -50,28 +53,45 @@ Token   *Lexer::create_token(t_params &params) {
     return NULL;
 }
 
-Token    *Lexer::read(const std::string src, size_t depth) {
+Token    *Lexer::read(const std::string src) {
     size_t  i;
     t_params    params;
 
     params.state_machine = 0;
-    params.start = this->_start;
-    params.end = 0;
     params.tabs = 0;
+    params.spaces = 0;
     params.key = "";
     params.value = "";
     for (i = this->_start; i < src.size(); i++) {
         switch (src[i])
         {
+            case SPACE_CH:
+                if (params.state_machine != 0)
+                    break ;
+
+                if (this->_tab) {
+                    std::cerr << "Error: mixed tabs and spaces\n";
+                    exit(1);
+                }
+                this->_space = 1;
+                params.spaces++;
+                break ;
+
             case TAB_CH:
-                params.state_machine |= TAB_BIT;
+                if (params.state_machine != 0)
+                    break ;
+
+                if (this->_space) {
+                    std::cerr << "Error: mixed tabs and spaces\n";
+                    exit(1);
+                }
+                this->_tab = 1;
                 params.tabs++;
-                if (params.tabs > depth)
-                    return NULL;
-                break;
+                break ;
+
             case DASH_CH:
                 //TODO negative numbers ??
-                if (params.tabs != depth)
+                if (this->_depth - params.tabs > 1)
                     return NULL;
                 params.state_machine |= DASH_BIT;
                 break;
@@ -82,28 +102,22 @@ Token    *Lexer::read(const std::string src, size_t depth) {
                 break;
             case NL_CH:
                 //TODO create object
-                params.end = i;
+                this->_start = i + 1;
+                if (params.state_machine == 0)
+                    return NULL;
                 params.state_machine |= NL_BIT;
                 return this->create_token(params);
-                break ;
             default:
                 if (this->_regex.find(src[i]) == (size_t)-1)
                     return NULL;
                     
-                //TODO review
-                if (!(params.state_machine & ALPHA_1_BIT)) {
+                if (!(params.state_machine & COLON_BIT)) {
                     params.key += src[i];
-                    if (params.tabs != depth)
-                        return NULL;
                     params.state_machine |= ALPHA_1_BIT;
-                } else if (params.state_machine & COLON_BIT and !(params.state_machine & ALPHA_2_BIT)) {
+                } else {
                     params.value += src[i];
                     params.state_machine |= ALPHA_2_BIT;
-                } else if (params.state_machine & ALPHA_1_BIT)
-                    params.key += src[i];
-                else if (params.state_machine & ALPHA_2_BIT)
-                    params.value += src[i];
-
+                }
                 break;
         }
 

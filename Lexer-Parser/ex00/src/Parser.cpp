@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Parser.hpp"
 
 Parser::Parser(): _src(NULL) {}
@@ -9,8 +11,9 @@ void    Parser::parse() {
     Token   *token;
 
     while (true) {
-        token = this->_lexer.read(this->_src, 0);
-        if (token == NULL)
+        token = this->_lexer.read(this->_src);
+        std::cout << token;
+        if (0 and token == NULL)
             break ;
     }
 }

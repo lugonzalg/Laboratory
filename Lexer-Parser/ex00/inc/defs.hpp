@@ -18,10 +18,9 @@ typedef struct s_params
 {
     __uint8_t state_machine;
     __uint8_t tabs;
+    __uint8_t spaces;
     std::string key;
     std::string value;
-    size_t      start;
-    size_t      end;
 }   t_params;
 
 #endif //DEFS_HPP
