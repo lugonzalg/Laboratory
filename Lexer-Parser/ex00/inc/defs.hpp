@@ -4,7 +4,9 @@
 typedef enum e_types {
     NONE,
     ATTRIBUTE,
-    OBJECT
+    OBJECT,
+    ITEM_ATTR,
+    ITEM_OBJECT
 }   t_types;
 
 typedef struct s_pattern {

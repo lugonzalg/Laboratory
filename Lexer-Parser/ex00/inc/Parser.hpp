@@ -11,7 +11,7 @@ class Parser
 
     public:
 
-        Parser(const std::string src);
+        Parser(const std::string &src, const char *lexer);
         ~Parser();
 
         void    parse();
@@ -22,7 +22,7 @@ class Parser
     private:
 
         const std::string _src;
-        Lexer      _lexer;
+        Lexer      __lexer;
 
         Parser();
 

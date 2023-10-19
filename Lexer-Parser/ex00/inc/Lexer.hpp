@@ -12,23 +12,16 @@ class Lexer
 
     public:
 
-        Lexer();
+        Lexer(const char *);
         ~Lexer();
 
-        Token    *read(const std::string src);
+        Token    *read(std::deque<Token *> &tokens, std::string src);
 
     protected:
 
     private:
 
-        const std::string   _regex;
-        size_t              _start;
-        size_t              _depth;
-        __uint8_t           _space;
-        __uint8_t           _tab;
-
-        Token   *create_token(t_params &params);
-
+        const std::string   __regex;
 };
 
 #endif //LEXER_HPP

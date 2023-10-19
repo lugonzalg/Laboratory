@@ -2,18 +2,13 @@
 
 #include "Parser.hpp"
 
-Parser::Parser(): _src(NULL) {}
-Parser::Parser(const std::string src): _src(src) {}
+Parser::Parser(const std::string &src, const char *lexer): _src(src), __lexer(lexer) {}
 
 Parser::~Parser() {}
 
 void    Parser::parse() {
-    Token   *token;
+    std::deque<Token *> token_list;
 
-    while (true) {
-        token = this->_lexer.read(this->_src);
-        std::cout << token;
-        if (0 and token == NULL)
-            break ;
-    }
+    this->__lexer.read(token_list, this->_src);
+    std::cout << 1;
 }

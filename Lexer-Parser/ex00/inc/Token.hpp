@@ -12,28 +12,17 @@ class Token
 
     public:
 
-        Token(t_types type, t_params &params);
-        void    add_edge(Token *token);
-        void    delete_edge(Token *token);
-
-        //getters
-        const std::string &get_key() const;
-        const std::string &get_value() const;
-
+        Token(const std::string &token, __uint8_t state_machine, __uint8_t indent);
     protected:
 
     private:
 
         Token();
 
-        const t_types     _type;
-        const std::string _key;
-        const std::string _value;
-
-        std::deque<Token *> _edges;
+        const std::string __token;
+        __uint8_t   __state_machine;
+        __uint8_t   __indent;
 
 };
-
-std::ostream    &operator<< (std::ostream &os, Token *token);
 
 #endif //TOKEN_HPP
