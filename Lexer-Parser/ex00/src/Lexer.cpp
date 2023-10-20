@@ -99,150 +99,102 @@ static size_t  split(
 # define COLON_CHAR  ':'
 # define COLON       0b00010000
 
+int  Lexer::__count_indent(const std::string &src, size_t i) {
+    const std::string indent_pattern = " \t";
+    int  indent;
+
+    indent = 0;
+    for (; i < src.size() and indent_pattern.find(src[i]) != (size_t)-1; i++) {
+
+        if (src[i] == SPACE)
+            this->__space = true;
+
+        else if (src[i] == TAB)
+            this->__tab = true;
+
+        if (this->__tab and this->__space)
+            return -1;
+        indent++;
+    }
+    return indent;
+}
+
+void    Lexer::_handle_alpha_start(const std::string &src, size_t i) {
+
+}
+
+void    Lexer::_handle_alpha_end(const std::string &src, size_t i) {
+
+}
+
+Token *Lexer::__create_token(std::string token, size_t indent) {
+    __uint8_t state_machine;
+
+    state_machine = 0;
+    for (size_t i = 0; i < token.size(); i++) {
+        switch (token[i])
+        {
+            case SPACE:{
+                indent++;
+                break ;
+            }
+            case DASH_CHAR:
+            {
+                if (state_machine == SM_EMPTY)
+                    state_machine |= DASH_START;
+                else if (state_machine & SM_ASC)
+                    state_machine |= DASH_MIDDLE;
+                else
+                    std::cerr << "Bad dash\n";
+                break;
+            }
+            case COLON_CHAR:
+            {
+                if (state_machine & SM_AS)
+                    state_machine |= COLON;
+                else
+                    std::cerr << "Bad colon\n";
+                break ;
+            }
+            default:
+                if (state_machine == SM_EMPTY or state_machine == SM_AS)
+                    this->__handle_alpha_start(src, i);
+                else if (state_machine & SM_ASC)
+                    this->__handle_alpha_end(src, i);
+
+                //if (this->__regex.find(token[i]) == (size_t)-1) {
+                //    std::cerr << "Bad character\n";
+                //    std::cerr << token[i] << std::endl;
+                //    break ;
+                //} else if (state_machine == SM_EMPTY or state_machine == SM_DS)
+                //    state_machine |= ALPHA_START;
+                //else if (state_machine == SM_ASC)
+                    state_machine |= ALPHA_END;
+                break;
+        }
+        
+    }
+    return (new Token(token, state_machine, indent));
+}
+
 Token    *Lexer::read(std::deque<Token *> &token_list, std::string src) {
     Token   *token;
     size_t  i;
     __uint8_t      indent;
-    bool        space;
-    bool        tab;
-    const std::string indent_pattern = " \t";
     std::deque<std::string> tokens;
 
     i = 0;
     while (true) {
-        indent = 0;
-        for (; i < src.size() and indent_pattern.find(src[i]) != (size_t)-1; i++) {
-
-            if (src[i] == SPACE)
-                space = true;
-
-            else if (src[i] == TAB)
-                tab = true;
-
-            if (tab and space)
-                return NULL;
-            indent++;
-        }
-        __uint8_t   state_machine;
-
+        indent = this->__count_indent(src, i);
         i = split(tokens, src, i, SPLIT_PATTERN);
+
         for (size_t j = 0; j < tokens.size(); j++) {
-            state_machine = 0;
-            for (size_t k = 0; k < tokens[j].size(); k++) {
-                switch (tokens[j][k])
-                {
-                    case SPACE:{
-                        indent++;
-                        break ;
-                    }
-                    case DASH_CHAR:
-                    {
-                        if (state_machine == SM_EMPTY
-                        or state_machine == SM_ASC
-                        or state_machine == SM_DSASC)
-                            state_machine |= DASH_MIDDLE;
-                        else
-                            std::cerr << "Bad dash\n";
-                        break;
-                    }
-                    case COLON_CHAR:
-                    {
-                        if (state_machine == SM_DSAS or state_machine == SM_AS)
-                            state_machine |= COLON;
-                        else
-                            std::cerr << "Bad colon\n";
-                        break ;
-                    }
-                    default:
-                        if (this->__regex.find(tokens[j][k]) == (size_t)-1) {
-                            std::cerr << "Bad character\n";
-                            std::cerr << tokens[j][k] << std::endl;
-                            break ;
-                        } else if (state_machine == SM_EMPTY or state_machine == SM_DS)
-                            state_machine |= ALPHA_START;
-                        else if (state_machine == SM_ASC)
-                            state_machine |= ALPHA_END;
-                        break;
-                }
-                
-            }
-            token = new Token(tokens[j], state_machine, indent);
+            token = this->__create_token(tokens[j], indent);
             token_list.push_back(token);
         }
         tokens.clear();
         if (i >= src.size())
             break ;
     }
-
     return NULL;
 }
-
-/*
-    t_params    params;
-    params.state_machine = 0;
-    params.tabs = 0;
-    params.spaces = 0;
-    params.key = "";
-    params.value = "";
-    for (i = this->_start; i < src.size(); i++) {
-        switch (src[i])
-        {
-            case SPACE_CH:
-                this->_space = 1;
-                if (params.state_machine != 0)
-                    break ;
-
-                if (this->_tab) {
-                    std::cerr << "Error: mixed tabs and spaces\n";
-                    exit(1);
-                }
-                params.spaces++;
-                break ;
-
-            case TAB_CH:
-                this->_tab = 1;
-                if (params.state_machine != 0)
-                    break ;
-
-                if (this->_space) {
-                    std::cerr << "Error: mixed tabs and spaces\n";
-                    exit(1);
-                }
-                params.tabs++;
-                break ;
-
-            case DASH_CH:
-
-                //TODO negative numbers ??
-                if (this->_depth - params.tabs > 1)
-                    return NULL;
-                params.state_machine |= DASH_BIT;
-                break;
-            case COLON_CH:
-                if (params.state_machine & COLON_BIT)
-                    return NULL;
-                params.state_machine |= COLON_BIT;
-                break;
-            case NL_CH:
-                //TODO create object
-                this->_start = i + 1;
-                if (params.state_machine == 0)
-                    return NULL;
-                params.state_machine |= NL_BIT;
-                return this->create_token(params);
-            default:
-                if (this->_regex.find(src[i]) == (size_t)-1)
-                    return NULL;
-                    
-                if (!(params.state_machine & COLON_BIT)) {
-                    params.key += src[i];
-                    params.state_machine |= ALPHA_1_BIT;
-                } else {
-                    params.value += src[i];
-                    params.state_machine |= ALPHA_2_BIT;
-                }
-                break;
-        }
-
-    }
-    */

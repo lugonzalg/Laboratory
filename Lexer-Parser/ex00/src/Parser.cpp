@@ -10,5 +10,6 @@ void    Parser::parse() {
     std::deque<Token *> token_list;
 
     this->__lexer.read(token_list, this->_src);
-    std::cout << 1;
+    for (size_t i = 0; i < token_list.size(); i++)
+        std::cout << token_list[i]->get_key() << " SM: " << (int)token_list[i]->get_sm() << std::endl;
 }
