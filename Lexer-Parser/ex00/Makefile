@@ -9,6 +9,9 @@ RM			= rm -rf
 FILES = src/main \
 		src/Lexer \
 		src/Parser \
+		src/Factory \
+		src/Airport \
+		src/AInfrastructure \
 		src/Token
 
 SRC = $(addsuffix .cpp, $(FILES))

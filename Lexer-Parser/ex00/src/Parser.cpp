@@ -1,15 +1,20 @@
 #include <iostream>
 
+#include "Airport.hpp"
 #include "Parser.hpp"
+#include "Factory.hpp"
 
-Parser::Parser(const std::string &src, const char *lexer): _src(src), __lexer(lexer) {}
+Parser::Parser(const std::string &src, const char *regex_start, const char *regex_end): __src(src), __lexer(regex_start, regex_end) {}
 
 Parser::~Parser() {}
 
-void    Parser::parse() {
-    std::deque<Token *> token_list;
-
-    this->__lexer.read(token_list, this->_src);
-    for (size_t i = 0; i < token_list.size(); i++)
-        std::cout << token_list[i]->get_key() << " SM: " << (int)token_list[i]->get_sm() << std::endl;
+void    Parser::parse(std::deque<Token *> &token_list) {
+    this->__lexer.read(token_list, this->__src);
 }
+
+void    Parser::reload(const std::string &src) {this->__src = src;}
+
+//bool    Parser::group(std::deque<Token *> &tokens, std::map<std::string, std::deque<Token *> >&elements) {
+//    if (elemnts.size() != 0)
+//        return true;
+//}

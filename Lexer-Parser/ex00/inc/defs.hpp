@@ -1,28 +1,22 @@
 #ifndef DEFS_HPP
 # define DEFS_HPP
 
-typedef enum e_types {
-    NONE,
-    ATTRIBUTE,
-    OBJECT,
-    ITEM_ATTR,
-    ITEM_OBJECT
-}   t_types;
+//FACTORY
 
-typedef struct s_pattern {
-    int alpha;
-    int indent;
-    int dash;
-    int two_point;
-}   t_pattern;
+# define EXISTS             true
+# define SUCCESS            false
+# define BUILDER_NOT_FOUND  true
+# define BUILDER_FOUND      false
 
-typedef struct s_params
-{
-    __uint8_t state_machine;
-    __uint8_t tabs;
-    __uint8_t spaces;
-    std::string key;
-    std::string value;
-}   t_params;
+//AIRPORT
+
+# define AIRPORT_NAME   "airport:"
+
+//MAIN
+
+# define BUFFER_SIZE 40960
+# define REGEX_START "poiuytrewqlkjhgfdsamnbvcxz"
+# define REGEX_END "POIUYTREWQLKJHGFDSAMNBVCXZpoiuytrewqlkjhgfdsamnbvcxz0987654321'-_"
+
 
 #endif //DEFS_HPP

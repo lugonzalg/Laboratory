@@ -13,6 +13,10 @@ class Token
     public:
 
         Token(const std::string &token, __uint8_t state_machine, __uint8_t indent);
+
+        const std::string   &get_key() const;
+        __uint8_t           get_sm() const;
+        __uint8_t           get_indent() const;
     protected:
 
     private:

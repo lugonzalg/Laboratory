@@ -5,30 +5,30 @@
 #include <map>
 
 #include "Lexer.hpp"
+#include "AInfrastructure.hpp"
 
 class Parser
 {
 
     public:
 
-        Parser(const std::string &src, const char *lexer);
+        Parser(const std::string &src, const char *regex_start, const char *regex_end);
         ~Parser();
 
-        void    parse();
+        void    parse(std::deque<Token *> &token_list);
+        void    create_connections(std::deque<AInfrastructure *> &ap_list);
+        void    reload(const std::string &src);
+        //bool    group(std::deque<Token *> tokens, std::map<std::string, std::deque<Token *> elements);
 
 
     protected:
 
     private:
 
-        const std::string _src;
-        Lexer      __lexer;
+        std::string       __src;
+        Lexer             __lexer;
 
         Parser();
-
-        std::map<std::string, std::string>  map_tokens;
-        typedef std::map<std::string, Token *>::iterator it_tokens;
-
 };
 
 #endif //PARSER_HPP

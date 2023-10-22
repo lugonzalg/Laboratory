@@ -5,7 +5,7 @@
 #include "Token.hpp"
 #include "Lexer.hpp"
 
-Lexer::Lexer(const char *regex): __regex(regex) {}
+Lexer::Lexer(const char *regex_start, const char *regex_end): __regex_alpha_start(regex_start), __regex_alpha_end(regex_end) {}
 
 Lexer::~Lexer() {}
 
@@ -98,6 +98,7 @@ static size_t  split(
 
 # define COLON_CHAR  ':'
 # define COLON       0b00010000
+# define OBJECT      0b00000100
 
 int  Lexer::__count_indent(const std::string &src, size_t i) {
     const std::string indent_pattern = " \t";
@@ -119,18 +120,20 @@ int  Lexer::__count_indent(const std::string &src, size_t i) {
     return indent;
 }
 
-void    Lexer::_handle_alpha_start(const std::string &src, size_t i) {
-
+void    Lexer::__handle_alpha_start(const std::string &src, size_t i) {
+    if (this->__regex_alpha_start.find(src[i]) == (size_t)-1)
+        return ;
+    this->__sm |= ALPHA_START;
 }
 
-void    Lexer::_handle_alpha_end(const std::string &src, size_t i) {
-
+void    Lexer::__handle_alpha_end(const std::string &src, size_t i) {
+    if (this->__regex_alpha_end.find(src[i]) == (size_t)-1)
+        return ;
+    this->__sm |= ALPHA_END;
 }
 
 Token *Lexer::__create_token(std::string token, size_t indent) {
-    __uint8_t state_machine;
 
-    state_machine = 0;
     for (size_t i = 0; i < token.size(); i++) {
         switch (token[i])
         {
@@ -140,47 +143,38 @@ Token *Lexer::__create_token(std::string token, size_t indent) {
             }
             case DASH_CHAR:
             {
-                if (state_machine == SM_EMPTY)
-                    state_machine |= DASH_START;
-                else if (state_machine & SM_ASC)
-                    state_machine |= DASH_MIDDLE;
+                if (this->__sm == SM_EMPTY)
+                    this->__sm |= DASH_START;
+                else if (this->__sm & SM_ASC)
+                    this->__sm |= DASH_MIDDLE;
                 else
                     std::cerr << "Bad dash\n";
                 break;
             }
             case COLON_CHAR:
             {
-                if (state_machine & SM_AS)
-                    state_machine |= COLON;
+                if (this->__sm & SM_AS)
+                    this->__sm |= COLON;
                 else
                     std::cerr << "Bad colon\n";
                 break ;
             }
             default:
-                if (state_machine == SM_EMPTY or state_machine == SM_AS)
-                    this->__handle_alpha_start(src, i);
-                else if (state_machine & SM_ASC)
-                    this->__handle_alpha_end(src, i);
-
-                //if (this->__regex.find(token[i]) == (size_t)-1) {
-                //    std::cerr << "Bad character\n";
-                //    std::cerr << token[i] << std::endl;
-                //    break ;
-                //} else if (state_machine == SM_EMPTY or state_machine == SM_DS)
-                //    state_machine |= ALPHA_START;
-                //else if (state_machine == SM_ASC)
-                    state_machine |= ALPHA_END;
+                if (!(this->__sm & ALPHA_START) and (this->__sm == SM_EMPTY or this->__sm == SM_DS))
+                    this->__handle_alpha_start(token, i);
+                else if (!(this->__sm & ALPHA_END) and (this->__sm == SM_ASC or this->__sm == SM_DSASC))
+                    this->__handle_alpha_end(token, i);
                 break;
         }
         
     }
-    return (new Token(token, state_machine, indent));
+    return (new Token(token, this->__sm, indent));
 }
 
 Token    *Lexer::read(std::deque<Token *> &token_list, std::string src) {
     Token   *token;
     size_t  i;
-    __uint8_t      indent;
+    __uint8_t               indent;
     std::deque<std::string> tokens;
 
     i = 0;
@@ -188,6 +182,7 @@ Token    *Lexer::read(std::deque<Token *> &token_list, std::string src) {
         indent = this->__count_indent(src, i);
         i = split(tokens, src, i, SPLIT_PATTERN);
 
+        this->__sm = 0;
         for (size_t j = 0; j < tokens.size(); j++) {
             token = this->__create_token(tokens[j], indent);
             token_list.push_back(token);
