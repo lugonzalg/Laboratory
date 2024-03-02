@@ -1,0 +1,17 @@
+FROM python:alpine3.18 as build
+
+WORKDIR /app
+
+COPY requirements.txt /tmp/requirements.txt
+COPY main.py main.py
+
+RUN pip wheel --no-cache-dir --wheel-dir /app/wheels install -r /tmp/requirements.txt
+
+FROM python:alpine3.18
+
+WORKDIR /app
+
+COPY --from=build /app/main.py /app/main.py
+COPY --from=build /app/wheels /app/wheels
+
+CMD [ "python", "main.py"]
