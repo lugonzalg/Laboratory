@@ -1,0 +1,8 @@
+FROM alpine:3.18 as build
+
+COPY main.cpp /tmp
+
+RUN apk add build-base clang && \
+    clang++ -static /tmp/main.cpp -o /tmp/program
+
+ENTRYPOINT [ "/tmp/program" ]

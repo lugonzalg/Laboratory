@@ -1,0 +1,60 @@
+flight:
+  - origin: JFK
+    destination: LAX
+    airline: Delta Airlines
+    flight_no: DL402
+    duration: 6h
+
+  - origin: LAX
+    destination: ORD
+    airline: United Airlines
+    flight_no: UA110
+    duration: 4h
+
+  - origin: ORD
+    destination: FCA
+    airline: American Airlines
+    flight_no: AA501
+    duration: 8h
+
+  - origin: FCA
+    destination: FCB
+    airline: FictionAir
+    flight_no: FA102
+    duration: 2h
+
+  - origin: FCB
+    destination: FCC
+    airline: FictionAir
+    flight_no: FA103
+    duration: 2h
+
+  - origin: FCC
+    destination: FCD
+    airline: FictionAir
+    flight_no: FA104
+    duration: 2h
+
+  - origin: FCD
+    destination: FCE
+    airline: FictionAir
+    flight_no: FA105
+    duration: 2h
+
+  - origin: FCE
+    destination: FCF
+    airline: FictionAir
+    flight_no: FA106
+    duration: 2h
+
+  - origin: FCF
+    destination: FCG
+    airline: FictionAir
+    flight_no: FA107
+    duration: 2h
+
+  - origin: FCG
+    destination: JFK
+    airline: American Airlines
+    flight_no: AA502
+    duration: 9h
