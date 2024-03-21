@@ -1,0 +1,8 @@
+Before the Exercise:
+
+    Python applications often require external libraries. These libraries might need to be compiled or have specific build-time dependencies.
+    In a single-stage Dockerfile, you would install all these dependencies, build/install your libraries, and they would all end up in the final image.
+
+
+create wheel packages
+src: https://stackoverflow.com/questions/66477330/with-multi-stage-dockerfile-the-pip-wheel-still-needs-the-dependencies-from-the

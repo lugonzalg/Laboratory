@@ -1,0 +1,10 @@
+FROM python:alpine3.18 as build
+
+WORKDIR /app
+
+COPY requirements.txt /tmp/requirements.txt
+COPY main.py main.py
+
+RUN pip --no-cache-dir install -r /tmp/requirements.txt
+
+CMD [ "python", "main.py"]

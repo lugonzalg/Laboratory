@@ -2,3 +2,5 @@
 *.sw*
 *.o
 libft
+a.out
+.vscode
