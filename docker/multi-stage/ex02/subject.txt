@@ -1,0 +1,11 @@
+Before the Exercise:
+
+    FastAPI applications, especially when using Pydantic or other libraries, might require compilation steps for dependencies.
+    The build environment (with compilers and build tools) is typically much larger than the runtime environment.
+
+Errors:
+
+    uvicorn tries to look up in app subdir, erase app part:
+    
+        - CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+        + CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
