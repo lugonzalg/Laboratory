@@ -1,0 +1,17 @@
+Exercise Steps:
+
+    Create a simple "Hello World" C++ application.
+    Write a Dockerfile with two stages:
+        Build Stage: Use a base image with all the necessary build tools (e.g., gcc), add your source code, and compile it.
+        Final Stage: Start with a clean, minimal base image. Copy only the compiled binary from the build stage.
+    Build the Docker image and run a container to test it.
+
+
+After steps:
+
+    I didn't know that if you compile statically a program all the dependencies will be within the binary file.
+    clang++ -static ...
+
+    Dockerfile.mono it does build an image of 8.97 MB.
+    Dockerfile.stage it does build an image of 512 MB.
+    
