@@ -33,3 +33,15 @@ Use something similar to binary search for find the neares lower number?
 First from 1 double each time until its power is bigger.
 
     1 (1) -> 2 (4) -> 4 (16) -> 8 (64) -> 16 (4096)
+
+16 is bigger than 100 and 8 is lower than 100.
+
+Start from the nearest option with the half of the increased value, for this is 8 which is the neares number, the half of the increased value is 4 (8 / 2).
+
+So the next number is 12, which is bigger than 100, ... repeat the same process.
+
+pseudo code:
+
+ find_nearest(low, high, direction)
+
+ Stop, first, simple algorithm, linear check.
