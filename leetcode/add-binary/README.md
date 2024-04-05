@@ -23,3 +23,5 @@ Constraints:
 
     1 <= a.length, b.length <= 104
     a and b consist only of '0' or '1' characters.
+
+Algoritmo:
