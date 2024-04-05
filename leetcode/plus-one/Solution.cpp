@@ -9,27 +9,18 @@ class Solution {
 public:
     vector<int> plusOne(vector<int>& digits) {
         
-        vector<int> res;
-
         for (auto rit = digits.rbegin(); rit != digits.rend(); rit++){
 
-            *rit += 1;
+            *rit = (*rit + 1) % 10;
 
-            if (*rit > 9) {
-                *rit = 0;
-                continue ;
-            }
-
-            break ;
-
+            if (*rit != 0)
+                break ;
         }
 
         if (!digits[0])
-            res.push_back(1);
-        for (auto& elem: digits)
-            res.push_back(elem);
+            digits.insert(digits.begin(), 1);
 
-        return res;
+        return digits;
     }
 };
 
