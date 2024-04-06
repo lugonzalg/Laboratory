@@ -15,17 +15,23 @@ class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
 
-        ListNode *tmp;
-        
-        for (ListNode *tracer = head; tracer && tracer->next; tracer = tracer->next) {
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
 
-            while (tracer->next and tracer->val == tracer->next->val) {
-                tmp = tracer->next;
-                tracer->next = tmp->next;
-                delete tmp;
-            }
+        ListNode *curr = head;
+
+        if (head == nullptr or head->next == nullptr)
+            return head;
+
+        while (curr->next) {
+
+            if (curr->val == curr->next->val) {
+                curr->next = curr->next->next;
+            } else
+                curr = curr->next;
+
         }
         return head;
-        
     }
 };
