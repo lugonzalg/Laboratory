@@ -90,6 +90,15 @@ Algoritmo:
                 return .cache.key.val
             return -1
 
+        .put: key, val:
+
+            if key in cache:
+                .remove(.cache.key)
+            .cache.key = .Node(key, val)
+            .insert(.cache.key)
+
+            if len(.cache) > .max:
+
         .insert: Nodo:
 
             .nodos[Nodo.val] = Nodo
