@@ -3,17 +3,17 @@ from typing import List
 class Solution:
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
 
-        temps = [temperatures[0]]
+        stack = []
         ans = [0] * len(temperatures)
 
-        for idx in range(1, len(temperatures)):
+        for idx in range(len(temperatures)):
 
-            offset = 0
-            while temperatures[idx] > temps[-1]:
-                temps.pop()
-                ans[idx - offset] = 1 + offset
+            while stack and temperatures[idx] > stack[-1][0]:
 
-            temps.append(temperatures[idx])
+                temp = stack.pop()
+                ans[temp[1]] = idx - temp[1]
+
+            stack.append((temperatures[idx], idx))
 
         
         #ans = [0]
