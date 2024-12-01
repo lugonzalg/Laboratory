@@ -1,0 +1,6 @@
+Tengo que buscar la diferencia entre las dos listas, me piden que haga comparaciones desde min(n) - min(m)
+hasta max(n) - max(m)
+
+Como primer approach se me acorre, guardar cada columna en una lista y hacer sum(arr_n) - sum(arr_m), donde n es columna n y m columna m.
+
+Nada, fail hahaha, guardar, ordenar y hacer la suma de distancias absolutas funciona.
