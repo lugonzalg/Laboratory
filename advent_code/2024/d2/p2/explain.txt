@@ -1,0 +1,11 @@
+El input es una lista de numeros repartido por filas,
+cada fila es una secuencia de numeros. Encuentra las filas
+que sea unicamente ascendentes y/o descendentes con una diferencia
+maxima entre elementos de |3|
+
+El approach es comprobar si es descendente o ascendente y aplicar
+la diferencia de |3|
+
+lo mismo pero con una vida
+
+para el bonus sliding window parece el mas sencillo
