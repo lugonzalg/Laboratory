@@ -90,7 +90,10 @@ while True:
     player["pos"][Y] += player["dir"][Y]
 
 total = 0
+positions = 0
 for line in file:
     total += line.count("X")
+    positions += len(line)
 
 print(f"total: {total}")
+print(f"positions: {positions}")

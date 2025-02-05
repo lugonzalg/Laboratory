@@ -96,6 +96,7 @@ for y in range(len(file)):
             player_coords = str(player_Y_coord, player_Y_coord)
             if player_coords not in coord_memory:
                 coord_memory[player_coords] = 1
+            else:
             if X_coord >= X_BOUNDARY - 1 or X_coord < 0:
                 break
 
